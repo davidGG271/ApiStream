@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
         // a. Crear cadenas de manera aleatoria.
-        Stream<String> randomStringsStream = Stream.generate(() -> generateRandomString(10, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))
+        Stream<String> randomStringsStream = Stream.generate(() -> generateRandomString(0,10, "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"))
                 .limit(10);
 
         List<String> randomStrings = randomStringsStream.collect(Collectors.toList());
@@ -51,8 +51,9 @@ public class Main {
     }
 
     // Método para generar una cadena aleatoria
-    private static String generateRandomString(int length, String characters) {
+    private static String generateRandomString(int minLength, int maxLength, String characters) {
         Random random = new Random();
+        int length = random.nextInt(maxLength - minLength + 1) + minLength;
         return random.ints(length, 0, characters.length())
                 .mapToObj(index -> characters.substring(index, index + 1))
                 .collect(Collectors.joining());
