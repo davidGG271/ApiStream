@@ -1,6 +1,8 @@
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Main {
@@ -48,7 +50,35 @@ public class Main {
         System.out.println("Lista sin cadenas vacías: " + nonEmptyStrings);
         System.out.println("Lista de cadenas con más de 5 caracteres: " + longStrings);
         System.out.println("Cadenas en mayúsculas separadas por comas: " + concatenatedUppercase);
+
+
+        // a. Generar una lista de números aleatorios.
+        List<Integer> randomNumbers = generateRandomNumbers(10, 1, 100);
+
+        // b. Obtener un IntStream a partir de la lista de números.
+        IntStream numberStream = randomNumbers.stream()
+                .mapToInt(Integer::intValue);
+
+        // c. Utilizar IntSummaryStatistics para obtener el recuento, mínimo, máximo, suma y promedio de números.
+        IntSummaryStatistics stats = numberStream.summaryStatistics();
+
+        // d. Imprimir los resultados.
+        System.out.println("Lista de números aleatorios: " + randomNumbers);
+        System.out.println("Recuento: " + stats.getCount());
+        System.out.println("Mínimo: " + stats.getMin());
+        System.out.println("Máximo: " + stats.getMax());
+        System.out.println("Suma: " + stats.getSum());
+        System.out.println("Promedio: " + stats.getAverage());
     }
+
+    // Método para generar una lista de números aleatorios
+    private static List<Integer> generateRandomNumbers(int count, int min, int max) {
+        Random random = new Random();
+        return random.ints(count, min, max + 1)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
 
     // Método para generar una cadena aleatoria
     private static String generateRandomString(int minLength, int maxLength, String characters) {
